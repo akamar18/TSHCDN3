@@ -1,0 +1,13 @@
+browser = navigator.appName;
+version = navigator.appVersion;
+os = navigator.platform;
+ie = "Microsoft Internet Explorer";
+nn = "Netscape";
+
+if (browser == nn) {
+	document.write('<link rel=stylesheet type="text/css" href="../../rn/netscape.css" title=master>');
+} 
+
+else {
+	document.write('<link rel=stylesheet type="text/css" href="../../rn/ie_default.css" title=master>');
+}

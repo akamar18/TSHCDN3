@@ -1,0 +1,1106 @@
+<!-- Vendor Purchase Orders -->
+<!-- Version 012B -->
+
+<!-- TOP | HDR.TEMPLATE | Rn_Header012A.html | -->
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">     
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 transitional//EN" "http://www.w3.org/TR/xhtml 1/DTD/xhtml1-transitional.dtd">    
+  <head>    
+    <meta http-equiv="X-UA-Compatible" content="IE=10"  />    
+    <meta name="google-translate-customization" content="c658242a1e553665-d4caf8e723ca0892-gee255db5dfcb55af-a" />    
+    <LINK rel="STYLESHEET" type="text/css" href="[stylesheet_path]?v=[WEBSITE.REV]">       
+    <title>[page_title] 7.0      
+    </title>    
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>    
+    <link rel="shortcut icon" href="[IMAGE.PATH]favicon.ico" />  
+<script type='text/javascript'> 
+// Added Global variables used by javascript and other functions 
+var ShowSalesGP = '[SALESGP]' ;
+var ShowSalesmanPricing = '[SHOWSLSPRICE]' ;
+var ShowSalesmanCustCreate = '[SHOWSLSCUST]' ;
+var ShowSalesmanProdCreate = '[SHOWSLSPROD]' ;
+var ShowInventory = '[SHOWINV]' ;
+var ShowPricingWidget = '[SHOWPRCWIDGET]' ; 
+//Added Info for Chat 
+var ChatCustomer = '[A.CUST.NO]'  ;
+var ChatLogon = '[CUSTOMERID]'  ;
+var ChatSalesman = '[SLSNAME]'  ;
+var ChatID = '[CHAT.ID]' ;
+// Added Web link Code ;
+var xweblink =   '[WEBLINK]'  ;
+var CID =  '[CUSTOMERID]'  ;
+var OID =  '[WEB.ORDERNO]' ;
+var TotLines =  '[TOT.ORD.LINES]' ;
+var StyleID = '[stylesheet_path]'
+var SUFFIX = '[SUFFIX]' ;
+var image_url = '[IMAGE.PATH]' ;
+var datasheet_url = '[DATASHEET.PATH]' ;
+var DailySpecials = '[DAILY.SPECIALS]' ; 
+var OrderSpecials = '[ORDER.SPECIALS]';
+// Added Global script Path
+var jsscript_path = '[script_path]' ;
+// Added Global menu Path
+// Added Global Solr Path
+var  MDSSolrUrl  = '[SOLRURL]' ;
+// Added Global Specials Template
+var  MDSSpecialsTemplate  = '[SPECIALS.TEMPLATE]' ;
+// Added Sales Visibility info 
+var SalesVisible ; 
+// Added Customer Item Number Support
+var intcust = '[CUST.NO]' ;
+var custassoc = '[CUSTASSOCCODE]' ;
+var autorec = '[AUTOREC]' ;
+var offsethrs = '[OFFSETHRS]' ;
+var counthrs = '[COUNTHRS]' ;
+var mastcust = '[MAST.CUST]' ; 
+ </script>    
+<script language='JavaScript' type="text/javascript" src='[script_path]jqfunctions.js?v=[WEBSITE.REV]'></script>   
+<script language='JavaScript' type="text/javascript" src='[script_path]tsh_utils.js?v=[WEBSITE.REV]'></script>   
+<script language='JavaScript' type="text/javascript" src='[script_path]searchlib.js?v=[WEBSITE.REV]'></script>   
+<script language='JavaScript' type="text/javascript" src='[script_path]milonic_src.js?v=[WEBSITE.REV]'></script>   
+<script language='JavaScript' type="text/javascript" src='[script_path]custom.js?v=[WEBSITE.REV]'></script>   
+<script type='text/javascript'>
+if(ns4)_d.write("<script language=Javascript src='[script_path]mmenuns4.js?v=[WEBSITE.REV]'><\/script>");
+   else _d.write("<script language=Javascript src='[script_path]mmenudom.js?v=[WEBSITE.REV]'><\/script>");
+ </script>        
+  </head>   
+  
+
+<!-- ENDTOP -->
+<!-- TOP | JAVA.TEMPLATE | Rn_Inquiry_Javascript012.html | -->
+
+
+   
+<script lang=javascript>
+function loadvalues() { 
+ //function to set values in drop down boxes ; 
+   document.template.itemspage.value = "[ITEMSPAGE]";
+   document.template.Changesort.value = "[CHANGESORT]";
+}
+function changepath(x,sflag) { 
+ document.template.startptr.value = 1  ; 
+ document.template.searchflag.value = sflag  ; 
+ document.template.loginpath.value = x  ; 
+ document.template.submit(); 
+}
+function prod_inquiry(loginpath,sflag,aprodno) { 
+ document.template.aprodno.value = aprodno  ; 
+ changepath(loginpath,sflag) ; 
+}
+function changeorder(x,ord) { 
+ document.template.startptr.value = 1  ; 
+ document.template.orderno.value = ord  ; 
+ document.template.loginpath.value = x  ; 
+ document.template.submit(); 
+}
+function Move_page(startptr,direction,loginpath) {
+// code to get startpointer
+       if (startptr < 1 ) {
+          startptr = 1
+       }
+ //if startptr is greater than total lines then set it to 1  
+       if (startptr > [TOTALLINES]) { 
+          startptr = 1
+       }
+ //if itemspage or changesort changed value then set startptr to 1 
+       var sort = document.template.Changesort.value
+       var prev_sort = document.template.prev_changesort.value
+       var items = document.template.itemspage.value
+       var prev_items = document.template.prev_itemspage.value
+       if (sort != prev_sort||items != prev_items) { 
+          startptr = 1
+       }
+   document.template.startptr.value = startptr  ;
+   document.template.searchflag.value = 'N' ;
+   document.template.loginpath.value = loginpath ;
+   document.template.submit()  ; 
+}
+function changeImages() {
+ if (document.images && (preloadFlag == true)) {
+     for (var i=0; i<changeImages.arguments.length; i+=2) {
+         document[changeImages.arguments[i]].src = changeImages.arguments[i+1];
+     }
+ }
+}
+function changesort(path,sflag,sort) { 
+  document.template.startptr.value = 1 ; 
+  document.template.searchflag.value = sflag ; 
+  document.template.loginpath.value = path ; 
+  document.template.Changesort.value = sort ; 
+  document.template.submit(); 
+}
+function browsedetail(browseno,itemkey) { 
+   var pgm = "../../cgi-bin/olecgi.exe/BrowseDtl[SUFFIX]?browseno=" + browseno + "&submitvar=" + itemkey ; 
+   var name = "sub" ; 
+   var parms = "toolbar=no,top=200,left=200,width=640,height=300,directories=no,status=yes,scrollbars=yes,resizable=no,menubar=no" ; 
+   browsedtl = window.open(pgm,name,parms) ; 
+   browsedtl.focus() ; 
+} 
+function release_detail(path,x) {
+  document.template.loginpath.value = path ;
+  document.template.pageid.value = 6 ;
+  document.template.startptr.value = 1 ;
+  document.template.mdsorderno.value = x ;
+  document.template.submit() ;
+}
+function proddisp() { 
+  document.template.aprodno.value ="" ;
+  document.template.aprodno.focus() ;
+}
+function saleshist_prt(ordno,user,path,sort) { 
+var pageurl = 'login[SUFFIX]?orderno=[WEB.ORDERNO]&CUSTOMERID=[CUSTOMERID]&LOGINPATH=' + path + '&pageid=31'+ '&NUM=' +  $( "#NUM" ).val();
+var dummy = showmodalrnpopup(pageurl) ;
+}
+function saleshist_prt_save(ordno,user,path,sort) { 
+  var pgm = "../../cgi-bin/olecgi.exe/saleshist_print[SUFFIX]?orderno=" + ordno + "&CustomerId=" + user + "&loginpath=" + path + "&Changesort=" + sort ; 
+  var name = "sub" ; 
+  var parms = "toolbar=yes,top=25,left=100,width=800,height=600,directories=no,status=no,scrollbars=yes,resizable=yes,menubar=yes" ; 
+  slsprt = window.open(pgm,name,parms) ; 
+  slsprt.focus() ; 
+} 
+function user_select(x,member) {
+    document.template.loginpath.value = x ;
+    document.template.CustomerId.value = member ;
+    document.template.orderno.value = "";
+    document.template.submit();
+ }
+function user_select(x,member) {
+    document.template.loginpath.value = x ;
+    document.template.CustomerId.value = member ;
+    document.template.orderno.value = "";
+    document.template.submit();
+ }
+ function res_add_order(x,ord,oldord,rflag) {
+  document.template.startptr.value = 1  ;
+  document.template.rflag.value = rflag  ;
+  document.template.orderno.value = ord  ;
+  document.template.oldorderno.value = oldord  ;
+  document.template.loginpath.value = x  ;
+  document.template.submit();
+ }  
+</script>          
+  
+
+
+<!-- ENDTOP -->
+<!-- TOP | DEFPG.TEMPLATE | Rn_Default_page012A.html | -->
+
+   
+  <body>    
+    <div id="tsh">    
+    </div>      
+    <div id="ORDXdivcontainer" style="z-index: 99999 ;top: 115px; left: 200px; width: 900px; height: auto; background-color: #ffffff; overflow: scroll;display: none; position: absolute; border: 1px solid" >    
+    </div>    
+    <div class="weblockmsg"> [WEB.LOCK.MSG]      
+    </div>    
+    <div id="content">	       
+      <div id="header">        
+        <!-- BEGIN HEADER -->    	         
+        <div id="header_logo">          
+          <!-- BEGIN HEADER_LOGO -->            
+          <a href="#" onclick="javascript:changepath('PS')" >            
+            <img id=rnlogo  src="[REMOTENET.LOGO]" alt="Logo" border="0" /></a>               
+        </div>        
+        <!-- END HEADER_LOGO -->                    
+        <div id="header_toplinks">          
+          <!-- BEGIN HEADER_TOPLINKS -->        Welcome [CUSTOMERID]  |  Order: [WEB.ORDERNO] [BUYER.COOKIE]   $[WEB.ORDERAMT] |             
+          <a href="#" onclick="javascript:changepath('CO')" >Checkout  </a> |             
+          <a href="#" onclick="javascript:changepath('EO')" >1-Click Checkout  </a> |                    
+          <a href="#" onclick="javascript:loadweborder()">  View Order  </a>|                     
+          <a href="[LOGOUTLINK]"><strong>Log out</strong></a> -             
+          <a href="mailto:[ADMIN.EMAIL]">Any issues ?</a>                   
+          <a href="#" onclick="javascript:loadprint()">              
+            <img Title="Print Web Order" class="ExportOrder"  src="[IMAGE.PATH]printer.gif" border="0"> </a>          
+          <A HREF="#" onclick="javascript:loadexport('PDF')" TITLE="Export Order as PDF" >	             
+            <img alt="Export Order as PDF" class="ExportOrder" src="[IMAGE.PATH]pdf.png" >  </A>          
+          <A HREF="#" onclick="javascript:loadexport('XLS')" TITLE="Export Order as XLS" >	             
+            <img alt="Export Order as XLS" class="ExportOrder" src="[IMAGE.PATH]excel.png" >  </A>          
+          <A HREF="#" onclick="javascript:loadexport('JPG')" TITLE="Export Order as JPG" >	             
+            <img alt="Export Order as JPG" class="ExportOrder" src="[IMAGE.PATH]jpeg.png" >  </A>          
+          <A HREF="#" onclick="javascript:loadexport('DOC')" TITLE="Export Order as DOC" >	             
+            <img alt="Export Order as DOC" class="ExportOrder" src="[IMAGE.PATH]word.png" >  </A>          
+          <A HREF="#" onclick="javascript:loadexport('TXT')" TITLE="Export Order as TXT" >	             
+            <img alt="Export Order as TXT" class="ExportOrder" src="[IMAGE.PATH]text.png" >  </A>        
+        </div>                 
+        <!-- END HEADER_TOPLINKS -->                    
+        <div id="header_ad">          
+          <!-- BEGIN HEADER_Advertising -->        	[VENDOR.AD]         	         
+        </div>          
+        <!-- End Header Ad -->           	  [MENUBAR]            	       
+      </div>      
+      <!-- END HEADER -->      
+      <div class=togglebar onclick='javascript:$("#left").toggle("1000")' >  Search Tools + | -        
+      </div>         
+      <div id="left">        
+        <!-- BEGIN LEFT -->                 
+        <div id="left_menutop">          
+          <!-- BEGIN LEFT_MENUTOP -->          
+          <div id="google_translate_element">          
+          </div>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>          
+          <br>          
+          <!--
+                                      <h2>Order by Category</h2> 
+                    -->                 
+        </div>        
+        <!-- END LEFT_MENUTOP -->        
+        <ul class="tabs" style="width: 100%; list-style-type: none; margin: 0; padding: 0;" >          
+          <li>            
+          <a class="SearchTabLink" href="#Tab1">Search</a>          
+          </li>          
+          <li>            
+          <a class="SearchTabLink RTab" href="#Tab2">Refine</a>          
+          </li>        
+        </ul>          
+        <div class="tab_container">            
+          <div class="tab_content" id="Tab1">                     
+            <div id="left_menucontent">              
+              <!-- BEGIN LEFT_MENUCONTENT -->[MENU.NAME]                      
+            </div>            
+            <!-- END LEFT_MENUCONTENT -->                     
+            <div id="left_allcat">              
+              <!-- BEGIN LEFT_ALLCAT -->                       
+              <a href="#" onclick="javascript:changepath('PS')">See all categories </a>                     
+            </div>            
+            <!-- END LEFT_ALLCAT -->                    
+          </div>            
+          <div class="tab_content" id="Tab2">            
+            <h3 class="nosh">Your Filters                
+              <span>                
+              </span> </h3>            
+            <div class="FaccordionButton">                 
+              <ul id="selection" >              
+              </ul>            
+            </div>            
+            <h3 class="nosh">Narrow Your Choices                
+              <a href="#" id="CloseFilter" > &#9650; </a>              
+              <a href="#" id="OpenFilter" > &#9660; </a>              
+              <span>              
+              </span></h3>            
+            <div id="FilterText">              
+            </div>          
+          </div>          
+        </div>	       
+      </div>      
+      <!-- END LEFT -->               
+      <div id="center">        
+        <!-- BEGIN CENTER -->         
+        
+
+<!-- ENDTOP -->
+<!-- TOP | MENUBAR.TEMPLATE | Rn_Menubar012a.html | -->
+
+            
+        <div id="centeredmenu">          
+          <!-- BEGIN HEADER_MENU -->                                  
+          <ul>                           
+            <li id=menubar1>              
+              <a href="#" class="firstlink">Place an Order</a>                              
+              <ul>                                  
+                <li>                
+                <a class="menuItem" href=# onclick="javascript:changepath('OE')">Shipping Information</a>               
+            </li>                    
+            <li> [PHMENU]              
+            </li>                   
+            <li>  [QOMENU]               
+            </li>                
+            <li>            
+            <a class="menuItem"  href=# onclick="javascript:changepath('PS')">Search for Products</a>              
+            </li>              
+            <li>            
+            <a class="menuItem"  href=# onclick="javascript:changepath('QS')">Quick Barcode Scan</a>              
+            </li>                
+            <li>            
+            <a class="menuItem"  href=# onclick="javascript:changepath('CO')">View Current Order</a>              
+            </li>               
+            <li> [OOHMENU]               
+            </li>                 
+            <li>            
+            <a class="menuItem"  href=# onclick="javascript:sendquote()">Email Order as Quote</a>              
+            </li>            
+            <li> [CSOSMENU]               
+            </li>                            
+          </ul>                         
+          </li>                        
+          <li id=menubar2>            
+            <a href="#" class="menu_normallink">My Account</a>                               
+            <ul>                
+              <li>              
+              <a class="menuItem"  href=# onclick="javascript:changepath('MYA')">My Information</a>            
+          </li>             
+          <li>[INVMENU]           
+          </li>             
+          <li>[CIMENU]           
+          </li>             
+          <li>[OIMENU]           
+          </li>             
+          <li>[PUHMENU]           
+          </li>             
+          <li>[ARMENU]           
+          </li>             
+          <li>[BOMENU]           
+          </li>             
+          <li>[PCSMENU]           
+          </li>             
+          <li>[CCIMENU]           
+          </li>             
+          <li>[PEDMENU]           
+          </li>             
+          <li>[WEBAUDMENU]           
+          </li>                              
+          <li> [CHGPSWD]            
+          </li>               
+          <li>          
+          <a class="menuItem"  href=# onclick="javascript:changepath('LIC')">View Our Licenses</a>            
+          </li>                            
+          </ul>                       
+          </li>                           
+          <li id=menubar3>            
+            <a href="#" class="menu_normallink">Deals</a>                                
+            <ul>              
+              <li>[BLOGMENU]           
+          </li>             
+          <li>            
+          <a class="menuItem" href=# onclick='javascript:changelist("CL","Y","WEB*30")'>Top Sellers</a>            
+          </li>          
+          <li>            
+          <a class="menuItem" href=# onclick='javascript:changelist("CL","Y","WEB*31")'>Most Popular</a>            
+          </li>          
+          <li>            
+          <a class="menuItem" href=# onclick='javascript:changelist("CL","Y","WEB*32")'>Latest Items</a>            
+          </li>          
+          <li>            
+          <a class="menuItem" href=# onclick='javascript:changelist("CL","Y","WEB*33")'>Trending Items</a>            
+          </li>          
+          <li>            
+          <a class="menuItem" href=# onclick='javascript:changelist("CL","Y","WEB*34")'>Best Selling Items</a>            
+          </li>                            
+          </ul>                            
+          </li>          
+          <!-- moved admin into my account 
+                                    <li><a href="#" class="menu_normallink">Admin</a>
+                                     <ul>               
+                                     </ul>
+                                  </li>
+                    -->                           
+          <li id=menubar4>            
+            <a href="#" class="menu_normallink">Contact Us</a>                              
+            <ul>                                 
+              <li>                
+              <a class="menuItem"  href="[CONTACTUS]">Contact Us</a>          
+          </li>                             
+          <li>          
+          <a class="menuItem"  href=# onclick="javascript:changepath('FB')">Customer Survey</a>             
+          </li>                             
+          <li>          
+          <a class="menuItem"  href="[HELPNAME]" target=new >Help</a>                             
+          </li>                            
+          </ul>                         
+          </li>                                         
+          <li>          
+          <a href="#" class="menu_normallink">Home</a>                              
+          <ul>                               
+            <li>            
+            <a class="menuItem" href="[HOMEPAGE]">Home Page</a>              
+            </li>            
+            <li>[SUSRMENU]             
+            </li>                            
+          </ul>                            
+          </li>            
+          <li id=menubar5>            
+            <a href="#"  class="lastlink"  style="display:none" ></a>            
+            <!-- hack to get around ie not allowing input and button tags
+                        inside of an A href tag , djf 5/17/14 
+                        -->            
+            <span class="lastlink">              
+              <div id="search">                         
+                <input type="text" id="query" placeholder="Enter Product " name="query" style="background-color: #add8e6;z-index: 99999 ;"/>              
+              </div>                
+              <input type="Button"     value="Search" class=button1  onclick="javascript:TopSearch()">                 
+              <a href=# title="Search Product History Only">                
+                <input type=checkbox name="shistflag" id="shistflag" value="Y" style="vertical-align: middle"></a>            
+            </span>                            
+          </li>                       
+          </ul>                 
+        </div>        
+        <!-- END HEADER_MENU -->              
+        <!-- added auto logout script -->           
+        <link type="text/css" rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/blitzer/jquery-ui.css"  />  
+<script>
+ var RNHomeURL = "[HOMEPAGE]"  ;
+ var RNLogoutSeconds  = "[RNTIMEOUT]" ; 
+ </script>    
+<script src="//hosting.tshinc.com/rn/rn-timeout/js/RnTimeout.js?v=[WEBSITE.REV]" type="text/javascript"></script> 		                    
+        
+
+<!-- ENDTOP -->
+<!-- TOP | PSWD.TEMPLATE | Rn_Pswd_menu012.html | -->
+
+                                                                                                                   
+        <a class="menuButton" href="" onclick="return buttonClick(event, 'pswdMenu')"     onmouseover="buttonMouseover(event, 'pswdMenu')">Change Password</a>                                                                                                              
+        
+
+<!-- ENDTOP -->
+<!-- TOP | MENUBAR.LOGINPATH | Rn_PurchHistInq_menu012.html | -->
+
+<a class="menuItem" href=# onclick="javascript:changepath('PUH')">View/Export My Purchases </a>
+<a class="menuItem" href=# onclick="javascript:changepath('VPO')">
+ Vendor Purchase Inquiry
+ </a>
+
+<!-- ENDTOP -->
+<!-- TOP | BODY.TEMPLATE1 | Rn_VPO_Body012.html | -->
+
+<div class="VendorMainPage" >
+
+<form name=template action="login[SUFFIX]" method=post>
+<input type=hidden name=Aprod_string value="[APROD_STRING]">
+<input type=hidden name=prod_string value="[PROD_STRING]">
+<input type=hidden name=qty_string value="[QTY_STRING]">
+<input type=hidden name=um_string value="[UM_STRING]">
+<input type=hidden name=price_string value="[PRICE_STRING]">
+<input type=hidden name=comment_string value="[COMMENT_STRING]">
+<input type=hidden name=manufact_string value="[MANUFACT_STRING]">
+<input type=hidden name=loginpath value="[LOGINPATH]">
+<input type=hidden name=searchflag value="[SEARCHFLAG]">
+<input type=hidden name=pageid value="6">
+<input type=hidden name=startptr value="[STARTPTR]">
+<input type=hidden name=CustomerId value="[CUSTOMERID]">
+<input type=hidden name=orderno value="[ORDERNO]">
+<input type=hidden name=old_loginpath value="[LOGINPATH]">
+<input type=hidden name=prev_changesort value="[CHANGESORT]">
+<input type=hidden name=prev_itemspage value="[ITEMSPAGE]">
+<input type=hidden name=mdsorderno value="[MDSORDERNO]">
+<input type=hidden name=aprodno value="[APRODNO]">
+<input type=hidden name=slsmno value="[SLSMNO]">
+<input type=hidden name=slsmn_id value="[SLSMN_ID]">
+<table border=0  cellspacing=0 cellpadding=0 width=100%>
+<tr>
+  <td colspan=2>
+    <table border=0 cellpadding=2 cellspacing=2 width=100%>
+      <tr>
+        <td id=colhdg nowrap><font size=2><b>vendor# </b></font></td>
+        <td id=colhdg nowrap><font size=2><b>YTD PO$</b></font></td>
+        <td id=colhdg nowrap><font size=2><b>Vendor Names</b></font></td>
+      </tr>
+      <tr >
+        <td id=datnorm nowrap valign=top>
+        <input type=text name=vendno value="[VEND.NO]">
+        </td>
+        <td id=datnorm nowrap valign=top>[YTD.PO]</td>
+        <td id=datnorm nowrap valign=top>[VEND.NAME]<br>
+[CUST.CITY], [CUST.ST]&nbsp;[CUST.ZIP]
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td>
+ <table border=0 cellpadding=0 cellspacing=2>
+  <tr>
+   <td id=taghdg width=150 align=right nowrap><b>Number of Months to Export:</b></td>
+   <td>&nbsp;
+<select id="NUM" name="NUM" size="1"> <option selected="" value="6">6</option> <option value="12">12</option> <option value="18">18</option> <option value="24">24</option> <option value="30">30</option> <option value="36">36</option> </select>
+   </td>
+   <td valign=center>
+   </td>
+   <td width=20></td>
+  </tr>
+ </table>
+</td>
+<td id=datnorm>
+<b>
+  <a href=# onclick="javascript:loadreorderguide('[WEB.ORDERNO]')">
+Click here to Print a Barcoded ReOrder Guide</a></b>
+</td>
+</TR>
+<tr>
+<td>
+ <table border=0 cellpadding=0 cellspacing=2>
+  <tr>
+   <td id=taghdg width=60 align=right nowrap><b>Sort By:</b></td>
+   <td>&nbsp;
+     <select name="Changesort" size=1>
+[SORT.BY]
+     </select>
+   </td>
+   <td valign=center>
+    <input type=button class=gobutton name="GO1" value="GO" onclick='javascript:changepath("VPO","N")'
+      onmouseover="this.className='gobutton gobuttonhov' ; window.status='Change Sort Method'"
+      onmouseout="this.className='gobutton' ; window.status=''">
+   </td>
+   <td width=20></td>
+  </tr>
+ </table>
+</td>
+<td id=datnorm>
+<b>
+  <a href=# onclick='javascript:saleshist_prt("[WEB.ORDERNO]","[CUSTOMERID]","PHP","2")'>
+Click here to
+print customer purchasing history or export to Excel.</a></b>
+</td>
+</TR>
+<tr>
+<td>
+ <table border=0 cellpadding=0 cellspacing=2>
+  <tr>
+   <td id=taghdg width=60 align=right nowrap><b>Items per page:</b></td>
+   <td>&nbsp;
+     <select name="itemspage" size=1>
+[ITEMS.PG]
+     </select>
+   </td>
+   <td valign=center>
+    <input type=button class=gobutton name="GO2" value="GO" onclick='javascript:changepath("VPO","N")'
+      onmouseover="this.className='gobutton gobuttonhov' ; window.status='Change Items Per Page'"
+      onmouseout="this.className='gobutton' ; window.status=''">
+   </td>
+   <td width=20></td>
+  </tr>
+ </table>
+</td>
+<td id=datnorm>
+<b>
+  <a href=# onclick='javascript:saleshist_prt("[WEB.ORDERNO]","[CUSTOMERID]","PHP2","2")'>
+Click here to print ship-to purchasing history or export to Excel.</a></b>
+</td>
+</tr>
+</table>
+<table border=0 cellpadding=0 cellspacing=0>
+  <tr>
+   <td height=10 align=left></td>
+  </tr>
+  <tr>
+   <td id=taghdg><font size=4>
+<b>Your recent product usage [SHIPTOMSG] is as follows:</b></font>
+   </td>
+  </tr>
+  <tr>
+   <td height=10 align=left></td>
+  </tr>
+  <tr>
+   <td id=datnorm><font size=2>
+<b>Click on any product description for additional product information.</b></font>
+   </td>
+  </tr>
+  <tr>
+   <td height=10 align=left></td>
+  </tr>
+</table>
+  <table border=0 cellpadding=1 cellspacing=0 width=100%>
+  <tr>
+    <td id=colhdg valign=top width=80>&nbsp;
+    </td>
+    <td id=colhdg valign=top>&nbsp;
+    </td>
+    <td id=colhdg valign=top align=center colspan=7 width=210>
+---------- Monthly Usage ----------
+    </td>
+    <td id=colhdg valign=top width=30>
+Tot
+    </td>
+    <td id=colhdg valign=top width=20>
+Sell
+    </td>
+    <td id=colhdg valign=top align=center width=80>
+Last
+    </td>
+    <td id=colhdg valign=top width=20>
+Last
+    </td>
+    <td id=colhdg valign=top align=center width=80>
+Total
+    </td>
+  </tr>
+ <!-- end first line table for heading line on data-->
+ <!--begin second line  for heading line on data-->
+  <tr>
+    <td id=colhdg valign=top nowrap>
+Product No.
+    </td>
+    <td id=colhdg valign=top>
+Product Description
+    </td>
+    <td id=colhdg valign=top width=30>
+[MONTH1]
+    </td>
+    <td id=colhdg valign=top width=30>
+[MONTH2]
+    </td>
+    <td id=colhdg valign=top width=30>
+[MONTH3]
+    </td>
+    <td id=colhdg valign=top width=30>
+[MONTH4]
+    </td>
+    <td id=colhdg valign=top width=30>
+[MONTH5]
+    </td>
+    <td id=colhdg valign=top width=30>
+[MONTH6]
+    </td>
+    <td id=colhdg valign=top width=30>
+Avg
+    </td>
+    <td id=colhdg valign=top width=30>
+YTD
+    </td>
+    <td id=colhdg valign=top width=20>
+UM
+    </td>
+    <td id=colhdg valign=top align=center width=80>
+Price
+    </td>
+    <td id=colhdg valign=top width=20>
+UM
+    </td>
+    <td id=colhdg valign=top align=center width=80>
+Expend.
+    </td>
+[VPO.DETAIL]
+</table>
+
+[PAGE.MOVEMENT]
+<!--end of page movement -->
+<table border=0 cellpadding=0 cellspacing=0 width=100%>
+  <tr>
+    <td height=5></td>
+  </tr>
+  <tr>
+    <td align=center valign=center>
+        &nbsp;</td>
+  </tr>
+</table>
+<!--run the load script--> 
+<script language=javascript> 
+ loadvalues() 
+</script>
+
+</td>
+</tr>
+</table>
+
+
+</div>
+<!-- ENDTOP -->
+<!-- TOP | SORTBY.DTL.TMPL | Rn_SortBy_Dtl012.html | -->
+                                                                                                                               
+          <option[SORTBY.SEL]value="[SORTBY.VAL]">[SORTBY.DESC]                                                                                                                   
+          </option>                                                                                                                    
+          
+<!-- ENDTOP -->
+<!-- TOP | DTL.TEMPLATE1 | Rn_VPO_Line012.html | -->
+
+
+
+  <tr id=[LNCOLOR]>
+    <td class=datsml valign=top align=left nowrap>
+<a class="ShowAdd" href=# onclick="javascript:ShowAdd('[A.PROD.NO]')">
+[A.PROD.NO]
+</A>
+    </td>
+    <td class=datsml valign=top align=left>
+      <a href=# onclick="javascript:prod_inquiry('PI','N','[A.PROD.NO]') ">
+[PROD.DESC]
+      </a>
+    </td>
+    <td class=datsml valign=top align=right width=30>
+[MU1]
+    </td>
+    <td class=datsml valign=top align=right width=30>
+[MU2]
+    </td>
+    <td class=datsml valign=top align=right width=30>
+[MU3]
+    </td>
+    <td class=datsml valign=top align=right width=30>
+[MU4]
+    </td>
+    <td class=datsml valign=top align=right width=30>
+[MU5]
+    </td>
+    <td class=datsml valign=top align=right width=30>
+[MU6]
+    </td>
+    <td class=datsml valign=top align=right width=30>
+[MU.AVG]
+    </td>
+    <td class=datsml valign=top align=right width=30>
+[TOT.YTD]
+    </td>
+    <td class=datsml valign=top align=right width=20>
+[SELL.UM]
+    </td>
+    <td class=datsml valign=top align=right width=80>
+[LAST.PRICE]
+    </td>
+    <td class=datsml valign=top align=right width=20>
+[LAST.UM]
+    </td>
+    <td class=datsml valign=top align=right width=80>
+[TOTAL.EXPD]
+    </td>
+  </tr>
+
+
+
+<!-- ENDTOP -->
+<!-- TOP | PGMOVE.TEMPLATE1 | Rn_PageMove_Hdr012.html | -->
+
+
+
+                                                                                                              
+      <table cellpadding=0 cellspacing=0 border=0 width=100%>                                                                                                                     
+        <tr>                                                                                                                              
+          <td height=10 colspan=4></td>                                                                                                                     
+        </tr>                                                                                                                     
+        <tr>                                                                                                                              
+          <td id=style9 nowrap>                                                                                                                                   
+            <font size=2><b>[NUM.ITEMS]</b>                                                                                                                                   
+            </font></td>                                                                                                                              
+          <td id=style9 nowrap>                                                                                                                                   
+            <font size=2><b>[NUM.PAGES]</b>                                                                                                                                   
+            </font></td>                                                                                                                              
+          <td id=style9>&nbsp;</td>                                                                                                                              
+          <td id=style9 align=right>                                                                                                                                       
+            <table border=0 cellpadding=0 cellspacing=0>                                                                                                                                                
+              <tr valign=top>                                                                                                                                                         
+                <td id=style9 nowrap width=60>                                                                                                                                                                   
+                  <a href=# onclick="javascript:Move_page('[PREV.STARTPTR]','B','[LOGINPATH]')">                                                                                                                                                                           
+                    <font size=2><b>Previous</b>                                                                                                                                                                   
+                    </font></a>     </td>                                                                                                                                                    
+                
+
+
+
+<!-- ENDTOP -->
+<!-- TOP | PGMOVE.TEMPLATE2 | Rn_PageMove_CurrPg012.html | -->
+
+
+
+                                                                                                                                                            
+                <td id=style9 nowrap width=20>                                                                                                                                                           
+                  <font size=2 color="red">[CURR.PAGE]                                                                                                                                                            
+                  </font></td>                                                                                                                                                    
+                
+
+
+
+<!-- ENDTOP -->
+<!-- TOP | PGMOVE.TEMPLATE3 | Rn_PageMove_NextPg012.html | -->
+
+
+
+                                                                                                                                                            
+                <td id=style9 nowrap width=20>                                                                                                                                                           
+                  <a href=# onclick="javascript:Move_page('[NEXT.STARTPTR]','','[LOGINPATH]')">                                                                                                                                                                   
+                    <font size=2>[NEXT.PAGE]                                                                                                                                                                    
+                    </font></a></td>                                                                                                                                                    
+                
+
+
+
+<!-- ENDTOP -->
+<!-- TOP | PGMOVE.TEMPLATE4 | Rn_PageMove_Foot012.html | -->
+
+
+
+                                                                                                                                                            
+                <td id=style9 nowrap width=60>                                                                                                                                                                   
+                  <a href=# onclick="javascript:Move_page('[NEXT.STARTPTR]','F','[LOGINPATH]')">                                                                                                                                                                           
+                    <font size=2><b>Next</b>                                                                                                                                                                   
+                    </font></a>     </td>                                                                                                                                                
+              </tr>                                                                                                                                       
+            </table>  </td>                                                                                                                     
+        </tr>                                                                                                           
+      </table>                                                                                                            
+      
+
+
+
+<!-- ENDTOP -->
+<!-- TOP | CUSTLIST.HDR | Rn_Custlist_Hdr012.html | -->
+
+
+
+ 
+      <table border=0 cellPadding=0 cellSpacing=0>  
+        <tr>   
+          <td colspan=3>   
+            <table border=0 cellPadding=0 cellSpacing=2>    
+              <tr>    
+                <td id=taghdg >     <b>Choose a template:</b>&nbsp;     </td>    <td>     
+                  <select name="customlist" size=1>
+                    
+
+
+
+<!-- ENDTOP -->
+<!-- TOP | CUSTLIST.DTL | Rn_Custlist_Dtl012.html | -->
+
+
+
+                                                                                                                    
+                    <option [SELECTED] value="[TEMPLATE.SEQ.NO]">[TEMPLATE.ID]                                                                                                            
+                    </option>                                                                                                            
+                    
+
+
+
+<!-- ENDTOP -->
+<!-- TOP | CUSTLIST.FOOT | Rn_Custlist_Foot012.html | -->
+
+
+
+                                                                                                                    
+                  </select>    </td>                                                                                                                
+                <td valign=center>                                                                                                                          
+                  <input type=button class=gobutton name="GO5" value="GO" onclick='javascript:changepath("CL","Y")'        onmouseover="this.className='gobutton gobuttonhov' ; window.status='Go to Template Order Entry'"        onmouseout="this.className='gobutton' ; window.status=''">    </td>                                                                                                                
+              </tr>                                                                                                               
+            </table>   </td>                                                                                                              
+        </tr>                                                                                                           
+      </table>                                                                                                            
+      
+
+
+
+<!-- ENDTOP -->
+<!-- TOP | NAVBAR.TEMPLATE1 | Rn_Navbar_PUH012.html | -->
+
+
+<table border=0 cellpadding=0 cellspacing=0 width=100%>
+  <tr>
+    <td height=10></td>
+  </tr>
+  <tr>
+    <td align=center valign=center>
+      <input type=button class=button1 name="RT" value="Return to Previous Page" onclick="javascript:history.go(-1)"
+        onmouseover="this.className='button1 buttonhov1' ; window.status='Return to Previous Page'"
+        onmouseout="this.className='button1' ; window.status=''">
+    </td>
+  </tr>
+</table>
+
+
+<!-- ENDTOP -->
+<!-- TOP | NAVBAR.TEMPLATE2 | Rn_Nullo.html | -->
+
+
+              
+
+<!-- ENDTOP -->
+<!-- TOP | NAVBAR.TEMPLATE3 | Rn_Nullo.html | -->
+
+
+              
+
+<!-- ENDTOP -->
+<!-- TOP | NAVBAR.TEMPLATE4 | Rn_Nullo.html | -->
+
+
+              
+
+<!-- ENDTOP -->
+<!-- TOP | NAVBAR.TEMPLATE5 | Rn_Nullo.html | -->
+
+
+              
+
+<!-- ENDTOP -->
+<!-- TOP | NAVBAR.TEMPLATE6 | Rn_Nullo.html | -->
+
+
+              
+
+<!-- ENDTOP -->
+<!-- TOP | LOADVAL.TEMPLATE | Rn_PUH_Loadvalues012.html | -->
+
+<script language=javascript>
+<!--run the load script-->
+ loadvalues()
+</script>
+
+<!-- ENDTOP -->
+<!-- TOP | FOOTER.TEMPLATE | Rn_Footer012A.html | -->
+
+        
+        </form>&nbsp;          
+      </div>    
+      <!-- END CENTER -->        
+      <div style="left: 100%;" class=togglebar onclick='javascript:$("#right").toggle("1000")' >  Order Tools + | -      
+      </div>    
+      <div id="right">               
+        <!-- BEGIN RIGHT -->                           [COUNTDOWN.CLOCK]          
+        <div id="right_shortcuts">                       
+          <!-- BEGIN RIGHT_ORDER -->                                   
+          <div class="accordionButton">                                         
+            <div id="right_ordertop">                                       
+              <!-- BEGIN RIGHT_ORDERTOP -->                 <h2>Shortcuts  + |  -  </h2>                                         
+            </div>                               
+            <!-- END RIGHT_ORDERTOP -->                                      
+          </div>                                     
+          <div class="accordionContent">                                            
+            <div class="right_ordercontent">                                       
+              <!-- BEGIN RIGHT_ORDERCONTENT -->                                                         
+              <p>Click on the following shortcuts :                                         
+              </p>                                                      
+              <table width="200" border="0" cellpadding="0" cellspacing="0">                                                                
+                <tr>                  <td>&nbsp;</td>                  <td>                                                               
+                    <p><strong>                                                               
+                        <!--                   <img src="[IMAGE.PATH]1.jpg" alt="1" width="15" height="15" align="absmiddle" />  -->  Create an Order</strong>                                                               
+                    </p>                                                                                    
+                    <ul>                                                                                              
+                      <li>                                                                       
+                      <a href=# onclick="javascript:changepath('PS')">Product Search</a>                                                                       
+                      </li>                                                                                              
+                      <li>                                                                       
+                      <a href=# onclick="javascript:changepath('QO')">Quick Order</a>                                                                       
+                      </li>                                                                                              
+                      <li>                                                                       
+                      <a href=# onclick="javascript:changepath('CL')">Use a Template</a>                                                                       
+                      </li>                                                                                              
+                      <li>                                                                      
+                      <a href=# onclick="javascript:changepath('PH')">Your Purchasing History </a>                       
+                      </li>                                                                                                 
+                      <li>                                                                       
+                      <a href=# onclick="javascript:changepath('OE')">Update Shipping Information</a>                                                                       
+                      </li>                                         
+                      <li>                                                                             
+                      <a href=# onclick="javascript:new_template('ST')">Save order as a Template</a>                                                                             
+                      </li>                                                                                    
+                    </ul>              </td>                                                                
+                </tr>                                                                
+                <tr>                  <td>&nbsp;</td>                  <td>                                                               
+                    <p><strong>                          
+                        <br/>                                                          
+                        <!--                   <img src="[IMAGE.PATH]2.jpg" alt="2" width="15" height="15" align="absmiddle" /> -->   My Account </strong>                                                               
+                    </p>                                                                                    
+                    <ul>                                                                                                                    
+                      <li>                                                                       
+                      <a href=# onclick="javascript:changepath('COO')">Check Order Status</a>                                                                       
+                      </li>                                                                                                
+                      <li>                                                                       
+                      <a href=# onclick="javascript:changepath('BO')">Check My Back Orders</a>                                                                       
+                      </li>                                                                                               
+                      <li>                                                                       
+                      <a href=# onclick="javascript:changepath('ARQ')">View My Invoices </a>                                                                       
+                      </li>                                          
+                      <li>                                                                       
+                      <a href=# onclick="javascript:changepath('OOH')">Review Orders on Hold </a>                                                                       
+                      </li>                                    
+                    </ul></td>                                                                
+                </tr>                                                      
+              </table>                                            
+            </div>                               
+            <!-- END RIGHT_ORDERCONTENT -->                                                         
+            <div class="right_orderbottom">                                       
+              <!-- BEGIN RIGHT_ORDERBOTTOM -->                                      
+            </div>                               
+            <!-- END RIGHT_ORDERBOTTOM -->                                        
+          </div>                          
+          <!-- end accordion content -->                      
+        </div>               
+        <!-- END RIGHT_ORDER -->                                
+        <!-- Added Hot Items Vertical -->                                    
+        <div id="right_specials">                       
+          <!-- BEGIN RIGHT_DESCR -->                                   
+          <div class="accordionButton">                                         
+            <div onclick="javascript:loadspecials();" id="right_ordertop">                                       
+              <!-- BEGIN RIGHT_ORDERTOP -->                 <h2>Our Specials  + |  -  </h2>                                         
+            </div>                               
+            <!-- END RIGHT_ORDERTOP -->                                    
+          </div>                         
+          <!-- END ACCORDION BUTTON -->                                       
+          <!-- BEGIN RIGHT_DESCRTOP -->                                       
+          <div class="accordionContent">                                                 
+            <div class="right_ordercontent" id="right_descrcontent">                                       
+              <!-- BEGIN RIGHT_DESCRCONTENT -->                                                        
+              <div id="RSdivcontainer">                                       
+              </div>                     
+            </div>                               
+            <!-- END RIGHT_DESCRCONTENT -->                                                   
+            <div id="right_descrbottom" class="right_orderbottom">                                       
+              <!-- BEGIN RIGHT_ORDERBOTTOM -->                                      
+            </div>                               
+            <!-- END RIGHT_ORDERBOTTOM -->                                     
+          </div>                         
+          <!-- end accordion content -->                      
+        </div>               
+        <!-- END RIGHT_DESCR -->                     
+        <div id="right_order">                             
+          <div class="accordionButton">                                       
+            <div onclick="javascript:loadsideorder();" id="right_ordertop">                                     
+              <!-- BEGIN RIGHT_ORDERTOP -->                 <h2>Current Order  + |  -  </h2>                                       
+            </div>                             
+            <!-- END RIGHT_ORDERTOP -->                                  
+          </div>                                            
+          <!-- BEGIN Current Order  -->                                       
+          <div class="accordionContent">                                                 
+            <div class="right_ordercontent" id="right_descrcontent">                                       
+              <!-- BEGIN RIGHT_DESCRCONTENT -->                                                        
+              <div id="printdivcontainer">                                       
+              </div>                     
+            </div>                               
+            <!-- END RIGHT_DESCRCONTENT -->                                                              
+            <div id="right_descrbottom" class="right_orderbottom">                                       
+              <!-- BEGIN RIGHT_ORDERBOTTOM -->                                      
+            </div>                               
+            <!-- END RIGHT_ORDERBOTTOM -->                                     
+          </div>                         
+          <!-- end accordion content -->                      
+        </div>               
+        <!-- END RIGHT_DESCR -->                                               
+        <div id="right_livehelp">                       
+          <!-- BEGIN RIGHT_LIVEHELP -->             <h2>Live Help </h2>                                  
+          <p>Do you have questions?                        
+          </p>                                  
+          <p><strong>Call us </strong>: [CONTACT.PHONE]<br />          <strong>E-mail us </strong>:                                 
+            <a href="mailto:[CONTACT.EMAIL]">[CONTACT.EMAIL] </a>                       
+          </p>                              
+          <div class="SalesContact" style="[SLSDISPLAY]" >               
+            <p>Your Account Representative                          
+            </p>                                    
+            <p><strong>Sales Contact  </strong>: [SLSNAME]<br /><strong>Call  </strong>: [SLSPHONE]<br />          <strong>E-mail  </strong>:                                   
+              <a href="mailto:[SLSEMAIL]">[SLSEMAIL] </a>                         
+            </p>                              
+          </div>        
+          <!--     <p>             
+                         <img src=[IMAGE.PATH]livehelp.png >            
+                      </p>              -->         
+        </div>               
+        <!-- END RIGHT_LIVEHELP -->                                
+      </div>    
+      <!-- END RIGHT -->       
+    </div>         
+    <!--Superholder/content -->             
+    <div id="footer" STYLE="text-align:center;width:100%">               
+      <hr id=styleruler height=4 width=100%>                         
+      <a class="bottommenuItem" href=# onclick="javascript:changepath('OE')">Shipping Information</a> |                        
+      <a class="bottommenuItem" href=# onclick="javascript:changepath('CP')">Change Password</a> |                          
+      <a class="bottommenuItem" href=# onclick="javascript:changepath('CO')">View Cart </a> |                        
+      <a class="bottommenuItem" href=# onclick="javascript:changepath('COO')">Order Status</a> |                        
+      <a class="bottommenuItem" href=# onclick="javascript:changepath('FB')">Contact Us</a>                     
+      <br>                     
+      <font size=-3 >Custom Designed for [COMPANY.NAME]                               
+        <br>Copyright &copy; [COPY.YR] The Systems House, Inc.                               
+        <br>                               
+        <a href="mailto:[WEBMASTER.EMAIL]">                                     
+          <em>Problems? Click here to email the Webmaster                                      
+          </em>                     
+      </font></a>          
+    </div>         
+    <!--RnFooter -->             
+  </body>     
+</html>
+
+
+<!-- ENDTOP -->
+

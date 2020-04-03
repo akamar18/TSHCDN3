@@ -1,0 +1,66 @@
+// declare array
+menuData = new Array()
+for (i=0; i < 7; i++) {
+	menuData[i] = new Array(40)
+	for (j=0; j < 20; j++) {
+		menuData[i][j] = new Array(2)}}
+
+// enter navigation data into array
+
+//menuData[0][0][0]="Place/Maintain an Order";
+menuData[0][0][0]="Place an Order";
+menuData[0][0][1]="changepath('OE')";
+
+menuData[0][1][0]="Template Order";
+menuData[0][1][1]="changepath('CL','Y')";
+
+menuData[0][2][0]="Line Item Entry";
+menuData[0][2][1]="changepath('QO')";
+
+menuData[0][3][0]="Product Search";
+menuData[0][3][1]="changepath('PS')";
+
+menuData[0][4][0]="Current Order";
+menuData[0][4][1]="changepath('CO')";
+
+//next menu
+menuData[1][0][0]="Product Inquiry";
+menuData[1][0][1]="changepath('PS')";
+
+menuData[1][1][0]="Order Inquiry";
+menuData[1][1][1]="changepath('COO_S','Y')";
+
+menuData[1][2][0]="Purchase History";
+menuData[1][2][1]="changepath('PUH','Y')";
+
+//menuData[1][3][0]="Accounts Receivable";
+menuData[1][3][0]="A/R Inquiry";
+menuData[1][3][1]="changepath('ARQ','Y')";
+
+//next menu
+menuData[2][0][0]="About Online orders";
+menuData[2][0][1]="html_window('../../rn/AboutRN.html')";
+
+menuData[2][1][0]="Contact Us";
+menuData[2][1][1]="html_window('../../rn/contactus.html')";
+
+menuData[2][2][0]="Help";
+menuData[2][2][1]="helpme('../../rn/help.html')";
+
+//next menu
+menuData[3][0][0]="Product Search";
+menuData[3][0][1]="changepath('PS')";
+
+menuData[3][1][0]="Inventory Inquiry";
+menuData[3][1][1]="changepath('IQ_S','Y')";
+
+menuData[3][2][0]="Switch Customers";
+menuData[3][2][1]="html_window('../../rn/default.htm')";
+
+//help box for display
+menuData[4][0][0]="For further information goto www.tshinc.com";
+menuData[4][0][1]="helpme('../../rn/help.html')";
+
+//home box
+menuData[5][0][0]="Go to Login page";
+menuData[5][0][1]="location.href='/rn/default.htm'";

@@ -1,0 +1,128 @@
+.nav-container {  position: relative;  z-index: 4;}
+.sidebar  .nav-container {margin-bottom: 25px; display: block;}
+.block.nav-container .block-title {margin-bottom: 0;}
+
+  /* menu icon */
+ .sf-menu-block {display: block; position: relative;}
+ .menu-icon-style {
+    font-size: 20px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: /*url("block-cart-header.gif")*/ /*tpa=http://livedemo00.template-help.com/magento_47673/skin/frontend/default/theme568/images/block-cart-header.gif*/ /*repeat-x scroll center bottom*/ #999999;
+    border-radius: 5px;
+    height: 52px;
+    line-height: 48px;
+    padding: 0 18px;
+    margin-top: 20px;
+ }
+  #menu-icon {
+    display: block;
+    cursor: pointer;
+    padding: 0 20px;
+    margin-bottom: 3px;
+  }
+  #menu-icon:before {content: "\f055"; font-size: 25px; line-height: 50px; float: right; }
+  #menu-icon.active:before { content: "\f056"; }
+
+  .sf-menu-phone {
+      background: #fff;
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      moz-box-sizing:border-box;
+      -moz-box-sizing: border-box; 
+      -webkit-box-sizing: border-box; 
+      box-sizing: border-box;
+      background: #F9F9F9;
+      padding-bottom: 4px;
+      border-radius: 0 0 5px 5px;
+  }
+  .sf-menu-phone li {  position: relative; text-transform: capitalize; }
+  .sf-menu-phone > li {margin-bottom: 3px; }
+  .sf-menu-phone > li.last {border-bottom: 0;}
+  .sf-menu-phone li a { display: inline-block;  color: #08436A;   }
+  .sf-menu-phone > li > a {
+    padding: 5px 5px 5px; 
+    font-size: 14px; 
+    display: block; 
+    color: #08436A; 
+    font-weight: normal;
+    border: 1px solid #E5E5E5;
+    border-bottom-color: #999999;
+    border-radius: 5px;
+    background: #999999;
+    background: -webkit-gradient(linear, left top, left bottom, from(#E5E5E5), to(#999999)); /*  webkit */
+    background: -moz-linear-gradient(top,  #E5E5E5,  #999999); /*firefox 3.6+ */
+    background: -o-linear-gradient(top,  #E5E5E5,  #999999); /*  Opera 11.10+ */
+  }
+  .sf-menu-phone > li > a:hover,
+  .sf-menu-phone  > li.active > a { 
+      background: #FFFFFF;
+      border-color: #FFFFFF;
+      border-bottom-color: #E5E5E5;
+      background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#E5E5E5)); /*  webkit */
+      background: -moz-linear-gradient(top,  #FFFFFF,  #E5E5E5); /*firefox 3.6+ */
+      background: -o-linear-gradient(top,  #FFFFFF,  #E5E5E5); /*  Opera 11.10+ */
+   }
+  .sf-menu-phone li li a:before {content: "\f105"; font-size: 15px; color: #08436A; margin-right: 8px;}
+  .sf-menu-phone li li {font-size: 12px; padding: 2px 0; line-height: 14px; }
+  .sf-menu-phone li li.last {}
+  .sf-menu-phone li li:first-child {}
+  .sf-menu-phone li li:first-child strong {top:3px;}
+  .sf-menu-phone li strong {
+    position: absolute;
+    display: block;
+    top: 3px;
+    right: 5px;
+    width: 40px;
+	 padding-right:5px;
+    font-size: small; 
+    line-height: 14px;
+    text-align: right;
+  }
+  .sf-menu-phone > li > strong {top: 5px; right: 18px; font-size: 14px; line-height: 22px; color: #08436A; width:40px; text-align:right; padding-right:10px;}
+  .sf-menu-phone li strong:hover { cursor: pointer; }
+  .sf-menu-phone li strong:before {content: "\f054";}
+  .sf-menu-phone li strong.opened:before { content: "\f078"; }
+
+  /* dropdown */
+  .sf-menu-phone ul {  
+    width: auto;  
+    padding: 4px 4px 4px 10px;   
+    display: none; 
+    moz-box-sizing:content-box;
+    -moz-box-sizing:content-box; 
+    -webkit-box-sizing:content-box; 
+    box-sizing:content-box;
+ }
+   .sf-menu-phone > li > ul {  
+    padding: 10px 4px 10px 15px;   
+    background: #fafafa;  
+    border: 1px solid #e2e2e2;
+    border-top-color: #e6e6e6;
+    border-bottom-color: #c6c6c6;
+    border-radius: 3px;
+    background: #e6e6e6;
+    margin-top: 3px;
+ }
+  .sf-menu-phone > li.active > a > span {color: inherit;}
+  
+  .sf-menu-phone li li.active > a,
+  .sf-menu-phone li li  a:hover { color: #999999;  }
+
+
+@media only screen and (min-width: 992px) {
+    .sf-menu-block {  display: none !important;}
+    .sf-menu-phone {display: block !important; position: relative;}
+    .menu-icon-style {display: none;}
+    .nav-container {display: none;}
+}
+@media only screen and (max-width:993px) {
+   .sidebar .nav-container {display: none;}
+   .sf-menu-phone{display: none;}
+}
+
+@media only screen and (max-width: 767px) { 
+    .sf-menu-block {margin: 0 10px;}
+}

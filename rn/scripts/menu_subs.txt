@@ -1,0 +1,313 @@
+// define menu attributes here
+
+//menuColor="#CCCCCC"
+//menuColorOn="#A0A0A0"
+//fontColorOn="#414141"
+//fontColorOff="#414141"
+//lineColor = "#000000"
+
+menuColor="white"
+menuColorOn="#33ff00"
+fontColorOn="red"
+fontColorOff="fuchsia"
+bordercolor = "maroon"
+lineColor = "maroon"
+divcolor = "maroon"
+
+
+separator="<img src=../../rn/RNimages/spacer.gif height=1 width=1>"
+
+//*---------------------------------------------------
+// shows the drop down menu 
+// expected arg is active div
+//--------------------------------------------------*/
+function showDDNav(){
+	args = showDDNav.arguments;
+	if(br=="N"){
+		var args, theObj;
+		args = showDDNav.arguments;
+		theObj = eval(args[1]);
+  		if (theObj){
+			if (theObj.visibility=='hide'){
+				theObj.visibility = 'show'
+			}
+		}
+	}
+	else if(br=="IE"){
+		theObj = eval(args[0]);
+		if (theObj){ 			
+			if (theObj.style.visibility=='hidden'){
+				// activate hideElement to hide <select> boxes
+				//hideElement('SELECT');
+				theObj.style.visibility = 'visible'
+			}
+		}
+	}
+	else{return}
+}
+
+//*---------------------------------------------------
+// hides the drop down menu 
+// expected arg is active div 
+//--------------------------------------------------*/
+function hideDDNav(){
+	args = hideDDNav.arguments;
+	if(br=="N"){
+		var args, theObj;
+		args = hideDDNav.arguments;
+		theObj = eval(args[1]);
+		if (theObj) if(theObj.visibility=='show'){theObj.visibility = 'hide';}
+	}
+	else if(br=="IE"){
+		theObj = eval(args[0]);
+		if (theObj) if(theObj.style.visibility=='visible'){showElement('SELECT');theObj.style.visibility = 'hidden'}
+		}
+	else{return}
+}
+
+//*---------------------------------------------------
+// hides drop down menu when menu is active
+// expected arg is active menu
+//--------------------------------------------------*/
+function hideDiv(){
+	args = hideDiv.arguments;
+	if(br=="N"){}
+	else if(br=="IE"){
+		theObj=eval(args[0]);
+		// calculate active size of menu
+		leftDiv=theObj.offsetLeft +2
+		rightDiv=theObj.offsetLeft + theObj.clientWidth -2
+		topDiv=theObj.offsetTop +2
+		bottomDiv=theObj.offsetTop + theObj.clientHeight -2		
+		if(window.event.clientY > bottomDiv || 
+			window.event.clientY < topDiv || 
+			window.event.clientX < leftDiv || 
+			window.event.clientX > rightDiv)
+			{
+			theObj.style.visibility = 'hidden';
+			 // activate showElement to show <select> menu's
+			 //showElement('SELECT');
+			}				
+		}
+	else{return}
+}
+
+//*---------------------------------------------------
+// highlight on menu item
+// expected arg is active menuitem
+//--------------------------------------------------*/
+function divOver(){
+	args = divOver.arguments;
+	if(br=="N"){}
+	else if(br=="IE"){
+		theObj=eval(args[0]);
+		theObj.style.backgroundColor=menuColorOn;
+	}
+	else{return}
+}
+
+//*---------------------------------------------------
+// highlight off menu item
+// expected arg is active menuitem
+//--------------------------------------------------*/
+function divOut(){
+	args = divOut.arguments;
+	if(br=="N"){}
+	else if(br=="IE"){
+		theObj=eval(args[0]);
+		theObj.style.backgroundColor=menuColor;
+	}
+	else{return}
+}
+
+//*---------------------------------------------------
+// highlight on menu item in netscape
+// expected arg is active menuitem
+//--------------------------------------------------*/
+function menuOver(){
+	var args, theMenu;
+	args = menuOver.arguments;
+	theMenu = eval(args[0]);
+	theMenu.bgColor=menuColorOn 
+}
+
+//*---------------------------------------------------
+// highlight off menu item in netscape
+// expected arg is active menuitem
+//--------------------------------------------------*/
+function menuOut(){
+	var args, theMenu;
+	args = menuOut.arguments;
+	theMenu = eval(args[0]);
+	theMenu.bgColor=menuColor 
+}
+
+//*---------------------------------------------------
+// goes to specified url
+// expected arg is url 
+//--------------------------------------------------*/
+function gotoUrl(){
+	args = gotoUrl.arguments;
+	var CM_RefferingURL, CM_Location, CM_Exists;
+	CM_ReferringURL = window.location.href;
+	CM_ReferringURL = CM_ReferringURL.split("&referringurl=");
+	CM_ReferringURL = CM_ReferringURL[0].split("?referringurl=");
+	CM_Exists = args[0].indexOf('?');
+	
+	if (CM_Exists == -1) {
+		CM_Location = args[0] + '?referringurl=' + escape(CM_ReferringURL[0])
+	}
+	else {
+		CM_Location = args[0] + '&referringurl=' + escape(CM_ReferringURL[0])
+	}
+	location.href = (CM_Location)
+}
+
+//*---------------------------------------------------
+// hides specified tag
+//--------------------------------------------------*/
+function hideElement(HTMLtag)
+{
+	for (i = 0; i < document.all.tags(HTMLtag).length; i++)
+	{
+		obj = document.all.tags(HTMLtag)[i];
+		obj.style.visibility = "hidden";
+	}
+}
+
+//*---------------------------------------------------
+// shows specified tag
+//--------------------------------------------------*/
+function showElement(HTMLtag)
+{
+	for (i = 1; i < document.all.tags(HTMLtag).length; i++)
+	{
+		obj = document.all.tags(HTMLtag)[i];
+		obj.style.visibility = "visible";
+	}
+}
+
+//*---------------------------------------------------
+// build the divs for IE
+// expected args are 'div name','x in menudata aray',
+// 'menu left coord','top in pixels' 
+//--------------------------------------------------*/
+var tdID = 0
+function doDiv(){
+	args = doDiv.arguments;
+	var divID = args[0];
+	var x = args[1];
+	var divLeft = args[2];
+	var divTop = args[3];
+
+	objDiv = "<div id=\"" + divID + "\" style=\"position:absolute; width:110px; z-index:2; top:"+ divTop +"px; left: " + divLeft + "; background-color:" + divcolor + "; border:1 solid " + bordercolor + "; visibility: hidden;\" onMouseover=\"showDDNav('document.all[\\'"+ divID +"\\']')\"  onMouseout=\"hideDiv('document.all[\\'" + divID + "\\']')\">"
+	objDiv += "<div id=\"spacer\" style=\"position:relative; height:6px; width:100px; z-index:3; left: 5; font-size:1;\"></div>"
+	
+	for (y = 0; y < 15; y++){
+	    if(menuData[x][y][0]!=null){
+		objDiv += "<div id=\"bar\" style=\"position:relative; height:1; width:100px; z-index:3; left: 5; background-color:" + lineColor + ";\">" + separator + "</div>"
+//		objDiv += "<div id=\"x" + tdID + "\" style=\"position:relative; background-color:"+ menuColor +"; width:100px; z-index:3; left: 5;\" onMouseover=\"divOver('document.all[\\'x" + tdID + "\\']')\" onMouseout=\"divOut('document.all[\\'x" + tdID + "\\']')\" class=\"dhtmlNav\" onClick=\"gotoUrl('"+menuData[x][y][1]+"')\">&nbsp;"+ menuData[x][y][0] +"&nbsp;</div>"
+		objDiv += "<div id=\"x" + tdID + "\" style=\"position:relative; background-color:"+ menuColor +"; width:100px; z-index:3; left: 5;\" onMouseover=\"divOver('document.all[\\'x" + tdID + "\\']')\" onMouseout=\"divOut('document.all[\\'x" + tdID + "\\']')\" class=\"dhtmlNav\" onClick="+menuData[x][y][1]+">&nbsp;"+ menuData[x][y][0] +"&nbsp;</div>"
+
+		tdID = tdID +1
+		}
+	}
+	objDiv += "<div id=\"bar\" style=\"position:relative; height:1; width:100px; z-index:3; left: 5; background-color:" + lineColor + ";\">" + separator + "</div>"
+	objDiv += "<div id=\"spacer\" style=\"position:relative; height:6px; width:100px; z-index:3; left: 5; font-size:1;\"></div></div>"
+	
+	document.write(objDiv);
+}
+
+
+//*---------------------------------------------------
+// build the layers for netscape
+// expected args are 'div name','x in menudata aray',
+// 'menu left coord','top in pixels' 
+//--------------------------------------------------*/
+function doLayer(){
+	args = doLayer.arguments;
+	var nestLayerID=0
+	var layerID = args[0];
+	var x = args[1];
+	var layerLeft = args[2];
+	var layerTop = args[3];
+
+	if(navigator.platform.indexOf("Win") < 0){layerInc=16;layerStyle="netMenuMac";}
+	else{layerInc=15;layerStyle="netMenu";}	
+		
+	objDiv = "<layer id=\""+ layerID +"\" Z-INDEX=1 BGCOLOR=\""+ menuColor +"\" WIDTH=110 LEFT="+ layerLeft +" TOP="+ layerTop +" VISIBILITY=HIDE onmouseover=\"showDDNav('','document.layers[\\'"+ layerID +"\\']')\" onmouseout=\"hideDDNav('','document.layers[\\'"+ layerID +"\\']')\">"
+	
+	var nestTop=10
+		for (y = 0; y < 15; y++){
+		    if(menuData[x][y][0]!=null){
+			objDiv += "<layer id=\"line2\" BGCOLOR=\""+ lineColor +"\" WIDTH=100 HEIGHT=1 Z-INDEX=8 LEFT=5 TOP="+ nestTop +">"+ separator +"</layer>"
+//			objDiv += "<layer id=\"x"+nestLayerID+"\" class=\""+ layerStyle +"\" Z-INDEX=7 BGCOLOR=\""+ menuColor +"\" HEIGHT=19 WIDTH=100 LEFT=5 TOP="+ nestTop +" onmouseover=\"menuOver('document.layers[\\'"+ layerID +"\\'].document.layers[\\'x"+nestLayerID+"\\']')\" onmouseout=\"menuOut('document.layers[\\'"+ layerID +"\\'].document.layers[\\'x"+nestLayerID+"\\']')\" onClick=\"gotoUrl('"+menuData[x][y][1]+"')\"><a id=navstyle  href=javascript:gotoUrl('"+menuData[x][y][1]+"')><font color=" + fontColorOff + ">"+ menuData[x][y][0]
+			objDiv += "<layer id=\"x"+nestLayerID+"\" class=\""+ layerStyle +"\" Z-INDEX=7 BGCOLOR=\""+ menuColor +"\" HEIGHT=19 WIDTH=100 LEFT=5 TOP="+ nestTop +" onmouseover=\"menuOver('document.layers[\\'"+ layerID +"\\'].document.layers[\\'x"+nestLayerID+"\\']')\" onmouseout=\"menuOut('document.layers[\\'"+ layerID +"\\'].document.layers[\\'x"+nestLayerID+"\\']')\" onClick="+menuData[x][y][1]+"><a id=navstyle href=javascript:"+menuData[x][y][1]+"><font color=" + fontColorOff + ">"+ menuData[x][y][0]
+			objDiv +="</font></a></layer>"		
+			nestLayerID=nestLayerID+1
+			nestTop=nestTop+layerInc+1
+			}
+		}
+		objDiv += "<layer id=\"line2\" BGCOLOR=\""+ lineColor +"\" WIDTH=100 LEFT=5 HEIGHT=1 Z-INDEX=8 TOP="+ nestTop +">"+ separator +"</layer>"
+		objDiv +="<layer id=\"lineEnd\" BGCOLOR=\""+ menuColor +"\" WIDTH=110 HEIGHT=8 Z-INDEX=7 TOP="+ nestTop +"></layer></layer>"
+
+	document.write(objDiv)
+}
+
+//*---------------------------------------------------
+// What's New Pop-up function
+//--------------------------------------------------*/
+
+function WhatsNew_PopUp() {
+	PopUpWindow = window.open("", "WhatsNew_PopUp",
+		"toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,width=480,height=281,left=100,top=100");
+	PopUpWindow.focus();
+}
+
+function Tutorial_PopUp() {
+	PopUpWindow = window.open("", "Tutorial_PopUp",
+		"toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,width=520,height=300,left=100,top=100");
+	PopUpWindow.focus();
+}
+
+function Gift_Guide_PopUp() {
+	PopUpWindow = window.open("", "Gift_Guide_PopUp",
+		"toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,width=475,height=483,left=271,top=0");
+	PopUpWindow.focus();
+}
+
+function DD_PopUp() {
+	PopUpWindow = window.open("", "DD_PopUp",
+		"toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,width=450,height=166,left=292,top=98");
+	PopUpWindow.focus();
+}
+
+//this code will tell us what browser we are using
+var br
+if(navigator.appName == 'Netscape' && document.layers != null){br="N";}
+
+	else if(navigator.appName == 'Microsoft Internet Explorer' && document.all != null){
+	br="IE";
+	}
+else {
+	br=null
+	}
+
+//this will draw the drop down menus 
+if(br=="N"){
+	doLayer('ordermenu',0,125,100)
+	doLayer('inqmenu',1,230,100)
+	doLayer('infomenu',2,325,100)
+	doLayer('searchmenu',3,435,100)
+	doLayer('helpbox',4,500,100)
+	doLayer('homebox',5,25,100)
+}
+else if(br=="IE"){
+	doDiv('ordermenu',0,125,100)
+	doDiv('inqmenu',1,230,100)
+	doDiv('infomenu',2,325,100)
+	doDiv('searchmenu',3,435,100)
+	doDiv('helpbox',4,500,100)
+	doDiv('homebox',5,25,100)
+}
+else{}

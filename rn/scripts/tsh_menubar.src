@@ -1,0 +1,99 @@
+out = out & "<!-- Menu bar titles -->" & eol
+
+out = out & "<div class=" & quot & menuBar & quot &  " style= & quot & "width:100%;" & quot & ">" & eol
+out = out & "<a class=" & quot & "menuButton" & quot & " href=" & quot & quot & " onclick=" & quot & "return buttonClick(event, 'aboutMenu');" & quot & ">" & eol
+out = out & "    onmouseover=" & quot & "buttonMouseover(event, 'aboutMenu');" & quot & ">" & eol
+out = out & "About Online Ordering</a>" & eol
+If cash_customer <> "Y" Then
+   out = out & "<a class=" & quot & "menuButton" & quot & " href=" & quot & quot & " onclick=" & quot & "return buttonClick(event, 'pswdMenu');" & quot & ">" & eol
+End If
+out = out & "    onmouseover=" & quot & "buttonMouseover(event, 'pswdMenu');" & quot & ">" & eol
+out = out & ">Change Password</a>" & eol
+out = out & "<a class=" & quot & "menuButton" & quot & " href=" & quot & quot & " onclick=" & quot & "return buttonClick(event, 'placeordMenu');" & quot & ">" & eol
+out = out & "    onmouseover=" & quot & "buttonMouseover(event, 'placeordMenu');" & quot & ">" & eol
+out = out & "Place an Order</a>" & eol
+out = out & "<a class=" & quot & "menuButton" & quot & " href=" & quot & quot & " onclick=" & quot & "return buttonClick(event, 'inquiryMenu');" & quot & ">" & eol
+out = out & "    onmouseover=" & quot & "buttonMouseover(event, 'inquiryMenu');" & quot & ">" & eol
+out = out & "Inquiries</a>" & eol
+out = out & "<a class=" & quot & "menuButton" & quot & " href=" & quot & quot & " onclick=" & quot & "return buttonClick(event, 'helpMenu');" & quot & ">" & eol
+out = out & "    onmouseover=" & quot & "buttonMouseover(event, 'helpMenu');" & quot & ">" & eol
+out = out & "Help</a>" & eol
+out = out & "<a class=" & quot & "menuButton" & quot & " href=" & quot & quot & " onclick=" & quot & "return buttonClick(event, 'contactMenu');" & quot & ">" & eol
+out = out & "    onmouseover=" & quot & "buttonMouseover(event, 'contactMenu');" & quot & ">" & eol
+out = out & "Contact Us</a>" & eol
+out = out & "<a class=" & quot & "menuButton" & quot & " href=" & quot & quot & " onclick=" & quot & "return buttonClick(event, 'logoutMenu');" & quot & ">" & eol
+out = out & "    onmouseover=" & quot & "buttonMouseover(event, 'logoutMenu');" & quot & ">" & eol
+out = out & "Log-Out</a>" & eol
+out = out & "</div>" & eol
+
+out = out & "<!-- Main menus -->" & eol
+
+out = out & "<div id=" & quot & "aboutMenu" & quot & " class=" & quot & "menu" & quot & eol
+out = out & "     onmouseover=" & quot & "menuMouseover(event)" & quot & ">" & eol
+out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & aboutRN_path & quot & ">About Online Ordering</a>" & eol
+If cash_customer <> "Y" Then
+   out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('ADM')" & quot & ">Administration</a>" & eol
+End If
+out = out & "</div>" & eol
+
+If cash_customer <> "Y" Then
+   out = out & "<div id=" & quot & "pswdMenu" & quot & " class=" & quot & "menu" & quot & eol
+   out = out & "     onmouseover=" & quot & "menuMouseover(event)" & quot & ">" & eol
+   out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('CP')" & quot & ">Change Password</a>" & eol
+   out = out & "</div>" & eol
+End If
+
+out = out & "<div id=" & quot & "placeordMenu" & quot & " class=" & quot & "menu" & quot & eol
+out = out & "     onmouseover=" & quot & "menuMouseover(event)" & quot & ">" & eol
+out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('OE')" & quot & ">Place an Order</a>" & eol
+If cash_customer <> "Y" Then
+   out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('PH')" & quot & ">Product History</a>" & eol
+End If
+out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('QO')" & quot & ">Line Item Entry</a>" & eol
+out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('PS')" & quot & ">Product Search</a>" & eol
+out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('CO')" & quot & ">Current Order</a>" & eol
+If cash_customer <> "Y" Then
+   out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('OOH')" & quot & ">Orders On Hold</a>" & eol
+End If
+out = out & "</div>" & eol
+
+out = out & "<div id=" & quot & "inquiryMenu" & quot & " class=" & quot & "menu" & quot & eol
+out = out & "     onmouseover=" & quot & "menuMouseover(event)" & quot & ">" & eol
+If prod_inq_flag = "Y" Then
+   out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('IQ_S')" & quot & ">Inventory Inquiry</a>" & eol
+End If
+If custitem_inq_flag = "Y" Then
+   out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('CIQ')" & quot & ">Cust/Item Price Inquiry</a>" & eol
+End If
+If order_inq_flag = "Y" Then
+   out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('COO')" & quot & ">Order Inquiry</a>" & eol
+End If
+If purch_inq_flag = "Y" Then
+   out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('PUH')" & quot & ">Purchasing History</a>" & eol
+End If
+If ar_inq_flag = "Y" Then
+   out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('ARQ')" & quot & ">Accounts Receivable</a>" & eol
+End If
+If backorder_inq_flag = "Y" Then
+   out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('BO')" & quot & ">Backorders</a>" & eol
+End If
+If prod_contract_flag = "Y" Then
+   out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('PCS')" & quot & ">Product Contract</a>" & eol
+End If
+out = out & "</div>" & eol
+
+out = out & "<div id=" & quot & "helpMenu" & quot & " class=" & quot & "menu" & quot & eol
+out = out & "     onmouseover=" & quot & "menuMouseover(event)" & quot & ">" & eol
+out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:helpme('" & helpname & "')" & quot & ">Help</a>" & eol
+out = out & "</div>" & eol
+
+out = out & "<div id=" & quot & "contactMenu" & quot & " class=" & quot & "menu" & quot & eol
+out = out & "     onmouseover=" & quot & "menuMouseover(event)" & quot & ">" & eol
+out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & contactus_path & quot & ">Contact Us</a>" & eol
+out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & "javascript:changepath('FB')" & quot & ">Feedback</a>" & eol
+out = out & "</div>" & eol
+
+out = out & "<div id=" & quot & "logoutMenu" & quot & " class=" & quot & "menu" & quot & eol
+out = out & "     onmouseover=" & quot & "menuMouseover(event)" & quot & ">" & eol
+out = out & "<a class=" & quot & "menuItem" & quot & " href=" & quot & html_path & "DEFAULT_LOCK.HTM" & quot & ">Log-Out</a>" & eol
+out = out & "</div>" & eol
