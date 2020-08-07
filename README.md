@@ -12,3 +12,9 @@ Load an exact version of a file:
 https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js
 https://cdn.jsdelivr.net/gh/jquery/jquery@32b00373b3f42e5cdcb709df53f3b08b7184a944/dist/jquery.min.js
 
+EXAMPLES FOR USING IN LINKED FILES.. 
+
+https://cdn.jsdelivr.net/gh/davidfertig/TSHCDN@1.2/rn/rndms
+https://cdn.jsdelivr.net/gh/davidfertig/TSHCDN@1.2/rn/css/RnPublic.css
+
+
